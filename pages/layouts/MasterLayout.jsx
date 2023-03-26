@@ -1,6 +1,7 @@
-import { Container } from "@mantine/core";
+import { Container, Paper, Flex } from "@mantine/core";
 import Head from "next/head";
 import ToggleThemesButton from "@/components/ToggleThemesButton";
+import ObjectMenu from "@/components/navigation/ObjectMenu";
 
 const MasterLayout = ({ children }) => {
   return (
@@ -11,8 +12,13 @@ const MasterLayout = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ToggleThemesButton />
-      {children}
+      <Paper my={16}>
+        <ToggleThemesButton />
+      </Paper>
+      <Flex>
+        <ObjectMenu />
+        {children}
+      </Flex>
     </Container>
   );
 };
