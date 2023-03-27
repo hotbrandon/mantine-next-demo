@@ -22,13 +22,6 @@ export default function DataTableDemo() {
   const [filteredData, setFilteredData] = useState<TableData[]>([]);
   const [records, setRecords] = useState<TableData[]>([]);
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
 
   useEffect(() => {
     if (data) {
@@ -52,6 +45,14 @@ export default function DataTableDemo() {
       setRecords(filteredData.slice(from, to));
     }
   }, [page, filteredData]);
+
+  if (isLoading) {
+    return <div>Loading Data...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <Flex
