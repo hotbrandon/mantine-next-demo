@@ -12,6 +12,10 @@ interface ApiResponse<T> {
   data: T;
 }
 
+const api: AxiosInstance = axios.create({
+  baseURL: "http://localhost:8000",
+});
+
 const useApi = <T>(
   endpoint: string,
   options?: AxiosRequestConfig
@@ -19,10 +23,6 @@ const useApi = <T>(
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
-  const api: AxiosInstance = axios.create({
-    baseURL: "http://localhost:8000",
-  });
 
   useEffect(() => {
     const fetchData = async () => {
