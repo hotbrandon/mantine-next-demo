@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
+import { useDebouncedValue } from "@mantine/hooks";
 import { Flex, Button, Grid, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import useApi, { ApiResult } from "@/hooks/useAxios";
@@ -18,8 +19,9 @@ export default function DataTableDemo() {
   const [page, setPage] = useState(1);
   const { data, isLoading, error }: ApiResult<TableData[]> =
     useApi<TableData[]>("/db-schema/tables");
+  const [filteredData, setFilteredData] = useState<TableData[]>([]);
   const [records, setRecords] = useState<TableData[]>([]);
-
+  const [debouncedQuery] = useDebouncedValue(query, 200);
   // if (isLoading) {
   //   return <div>Loading...</div>;
   // }
@@ -32,9 +34,20 @@ export default function DataTableDemo() {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
     if (data) {
-      setRecords(data.slice(from, to));
+      setFilteredData(
+        data.filter(({ table_name }) => {
+          if (
+            debouncedQuery !== "" &&
+            !`${table_name}`.includes(debouncedQuery.trim().toUpperCase())
+          ) {
+            return false;
+          }
+          return true;
+        })
+      );
+      setRecords(filteredData.slice(from, to));
     }
-  }, [page, data]);
+  }, [page, data, filteredData, debouncedQuery]);
 
   const filterByName = () => {
     const filteredData: TableData[] =
@@ -68,7 +81,7 @@ export default function DataTableDemo() {
         </Grid.Col>
       </Grid>
       <DataTable
-        minHeight={150}
+        minHeight={200}
         noRecordsText="沒有資料"
         withBorder
         borderRadius="sm"
@@ -77,7 +90,7 @@ export default function DataTableDemo() {
         highlightOnHover
         // provide data
         records={records}
-        totalRecords={data?.length || 0}
+        totalRecords={filteredData.length || 0}
         recordsPerPage={PAGE_SIZE}
         page={page}
         onPageChange={(p) => setPage(p)}

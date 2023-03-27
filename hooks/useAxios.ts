@@ -21,7 +21,7 @@ const useApi = <T>(
   const [error, setError] = useState<Error | null>(null);
 
   const api: AxiosInstance = axios.create({
-    baseURL: "http://192.168.120.100:8000",
+    baseURL: "http://localhost:8000",
   });
 
   useEffect(() => {
