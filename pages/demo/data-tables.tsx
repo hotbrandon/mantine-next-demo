@@ -32,6 +32,7 @@ export default function DataTableDemo() {
         ) {
           return false;
         }
+        setPage(1);
         return true;
       });
       setFilteredData(filteredData);
