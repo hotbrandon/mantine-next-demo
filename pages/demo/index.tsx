@@ -27,6 +27,12 @@ const DemoIndex = () => {
             icon={<IconGridDots size="1rem" stroke={1.5} />}
           />
         </Link>
+        <Link href="/demo/data-tables" passHref legacyBehavior>
+          <NavLink
+            label="DataTables"
+            icon={<IconGridDots size="1rem" stroke={1.5} />}
+          />
+        </Link>
         <NavLink
           label="First parent link"
           icon={<IconGridDots size="1rem" stroke={1.5} />}
