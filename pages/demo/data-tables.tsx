@@ -31,31 +31,27 @@ export default function DataTableDemo() {
   // }
 
   useEffect(() => {
+    if (data) {
+      const filteredData = data.filter(({ table_name }) => {
+        if (
+          debouncedQuery !== "" &&
+          !`${table_name}`.includes(debouncedQuery.trim().toUpperCase())
+        ) {
+          return false;
+        }
+        return true;
+      });
+      setFilteredData(filteredData);
+    }
+  }, [data, debouncedQuery]);
+
+  useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
-    if (data) {
-      setFilteredData(
-        data.filter(({ table_name }) => {
-          if (
-            debouncedQuery !== "" &&
-            !`${table_name}`.includes(debouncedQuery.trim().toUpperCase())
-          ) {
-            return false;
-          }
-          return true;
-        })
-      );
+    if (filteredData) {
       setRecords(filteredData.slice(from, to));
     }
-  }, [page, data, filteredData, debouncedQuery]);
-
-  const filterByName = () => {
-    const filteredData: TableData[] =
-      data?.filter((t) => {
-        return t.table_name.includes("CT");
-      }) || [];
-    setRecords(filteredData);
-  };
+  }, [page, filteredData]);
 
   return (
     <Flex
@@ -65,21 +61,17 @@ export default function DataTableDemo() {
       direction="column"
       wrap="nowrap"
     >
-      <Grid align="center" mb="md">
-        <Grid.Col sm={6}>
-          <TextInput
-            sx={{ flexBasis: "30%" }}
-            placeholder="Table name like ..."
-            icon={<IconSearch size={16} />}
-            value={query}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-          />
-        </Grid.Col>
-        <Grid.Col sm={6}>
-          <Button onClick={filterByName}>Filter</Button>
-          <Button ml={8}>Clear</Button>
-        </Grid.Col>
-      </Grid>
+      <Flex mb="md">
+        <TextInput
+          sx={{ flexGrow: 1, marginRight: "10px" }}
+          placeholder="Object name includes ..."
+          icon={<IconSearch size={16} />}
+          value={query}
+          onChange={(e) => setQuery(e.currentTarget.value)}
+        />
+
+        <Button onClick={() => setQuery("")}>Clear</Button>
+      </Flex>
       <DataTable
         minHeight={200}
         noRecordsText="沒有資料"
