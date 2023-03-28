@@ -4,7 +4,6 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { Flex, Button, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import useApi, { ApiResult } from "@/hooks/useAxios";
-import { useRouter } from "next/router";
 
 interface TableData {
   id: number;
@@ -15,8 +14,7 @@ interface TableData {
 
 const PAGE_SIZE = 20;
 
-export default function AllTables() {
-  const router = useRouter();
+export default function DbTables() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const { data, isLoading, error }: ApiResult<TableData[]> =
@@ -105,11 +103,7 @@ export default function AllTables() {
         ]}
         // execute this callback when a row is clicked
         onRowClick={({ id, table_name }) =>
-          //alert(`todo: 取得欄位 for table ${id}, ${table_name}`)
-          {
-            e.preventDefault();
-            router.push(`/demo/tables/${id}`);
-          }
+          alert(`todo: 取得欄位 for table ${id}, ${table_name}`)
         }
       />
     </Flex>

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
 
+console.log(
+  `process.env.NEXT_PUBLIC_API_URL=${process.env.NEXT_PUBLIC_API_URL}`
+);
 export interface ApiResult<T> {
   data: T | null;
   isLoading: boolean;
@@ -13,7 +16,7 @@ interface ApiResponse<T> {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 const useApi = <T>(
