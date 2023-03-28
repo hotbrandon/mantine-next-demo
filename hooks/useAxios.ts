@@ -13,7 +13,7 @@ interface ApiResponse<T> {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: process.env.API_URL,
 });
 
 const useApi = <T>(
