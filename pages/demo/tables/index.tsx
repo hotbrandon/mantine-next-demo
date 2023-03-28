@@ -24,6 +24,7 @@ export default function AllTables() {
   const [filteredData, setFilteredData] = useState<TableData[]>([]);
   const [records, setRecords] = useState<TableData[]>([]);
   const [debouncedQuery] = useDebouncedValue(query, 200);
+  const [columns, setColumns] = useState();
 
   useEffect(() => {
     if (data) {
@@ -56,6 +57,8 @@ export default function AllTables() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+  const fetchDetail = (table_id) => {};
 
   return (
     <Flex
@@ -107,8 +110,7 @@ export default function AllTables() {
         onRowClick={({ id, table_name }) =>
           //alert(`todo: 取得欄位 for table ${id}, ${table_name}`)
           {
-            e.preventDefault();
-            router.push(`/demo/tables/${id}`);
+            fetchDetail(id);
           }
         }
       />
